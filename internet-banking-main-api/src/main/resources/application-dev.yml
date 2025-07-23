@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: Internet Banking API
+  datasource:
+    url: jdbc:postgresql://localhost:5432/internet_banking
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true

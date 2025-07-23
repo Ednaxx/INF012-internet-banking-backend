@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: SMTP Server
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVER_ADDRESS}:${EUREKA_SERVER_PORT}/eureka/
+  instance:
+    preferIpAddress: true
