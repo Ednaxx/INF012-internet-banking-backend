@@ -1,5 +1,6 @@
 package edu.ifba.internet_banking_main_api.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class Account {
 
     @OneToOne
     @JoinColumn(nullable = false)
+    @JsonIgnore // Prevent circular reference
     private User user;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
