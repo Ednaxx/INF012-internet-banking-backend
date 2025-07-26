@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -26,12 +28,12 @@ public class Account {
     @Column(nullable = false)
     private String branch;
 
-    @Column(nullable = false)
-    private Double balance;
+    @Column(nullable = false, precision = 15, scale = 2)
+    private BigDecimal balance;
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore // Prevent circular reference
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
@@ -40,8 +42,8 @@ public class Account {
     public Account(User user) {
         this.user = user;
         this.number = generateAccountNumber();
-        this.branch = "001"; // Default branch
-        this.balance = 0.0;
+        this.branch = "001";
+        this.balance = BigDecimal.ZERO;
     }
 
     private String generateAccountNumber() {
