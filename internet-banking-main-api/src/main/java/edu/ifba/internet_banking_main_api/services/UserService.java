@@ -1,6 +1,6 @@
 package edu.ifba.internet_banking_main_api.services;
 
-import edu.ifba.internet_banking_main_api.dtos.CreateUserRequestDTO;
+import edu.ifba.internet_banking_main_api.dtos.request.CreateUserRequestDTO;
 import edu.ifba.internet_banking_main_api.exceptions.ApiException;
 import edu.ifba.internet_banking_main_api.exceptions.ErrorType;
 import edu.ifba.internet_banking_main_api.models.Account;

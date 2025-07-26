@@ -1,7 +1,7 @@
 package edu.ifba.internet_banking_main_api.controllers;
 
-import edu.ifba.internet_banking_main_api.dtos.CreateUserRequestDTO;
-import edu.ifba.internet_banking_main_api.dtos.SuccessResponse;
+import edu.ifba.internet_banking_main_api.dtos.request.CreateUserRequestDTO;
+import edu.ifba.internet_banking_main_api.dtos.response.SuccessResponse;
 import edu.ifba.internet_banking_main_api.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

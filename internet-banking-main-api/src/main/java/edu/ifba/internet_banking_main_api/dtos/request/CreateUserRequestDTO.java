@@ -1,4 +1,4 @@
-package edu.ifba.internet_banking_main_api.dtos;
+package edu.ifba.internet_banking_main_api.dtos.request;
 
 import edu.ifba.internet_banking_main_api.validators.ValidCpf;
 import jakarta.validation.constraints.Email;

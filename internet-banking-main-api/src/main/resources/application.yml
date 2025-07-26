@@ -15,6 +15,10 @@ server:
     include-exception: false
     include-message: never
     include-binding-errors: never
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
+  issuer: internet-banking-api
 eureka:
   client:
     serviceUrl:
