@@ -1,0 +1,25 @@
+package edu.ifba.internet_banking_main_api.dtos;
+
+import edu.ifba.internet_banking_main_api.validators.ValidCpf;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
+public record CreateUserRequestDTO(
+    @NotBlank(message = "Name is required")
+    String name,
+
+    @NotBlank(message = "CPF is required")
+    @Pattern(regexp = "\\d{11}", message = "CPF must contain exactly 11 digits")
+    @ValidCpf
+    String cpf,
+
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be valid")
+    String email,
+
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters")
+    String password
+) {}

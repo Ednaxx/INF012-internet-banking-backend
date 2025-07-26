@@ -9,7 +9,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
+      show_sql: false
+server:
+  error:
+    include-stacktrace: never
+    include-exception: false
+    include-message: never
+    include-binding-errors: never
 eureka:
   client:
     serviceUrl:
