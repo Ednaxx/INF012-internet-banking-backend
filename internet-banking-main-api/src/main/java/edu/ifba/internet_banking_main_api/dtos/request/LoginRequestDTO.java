@@ -1,12 +1,13 @@
 package edu.ifba.internet_banking_main_api.dtos.request;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public record LoginRequestDTO(
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email must be valid")
-    String email,
+    @NotBlank(message = "Account number is required")
+    String accountNumber,
+
+    @NotBlank(message = "Branch is required")
+    String branch,
 
     @NotBlank(message = "Password is required")
     String password

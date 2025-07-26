@@ -30,7 +30,7 @@ public class Account {
     private Double balance;
 
     @OneToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore // Prevent circular reference
     private User user;
 
