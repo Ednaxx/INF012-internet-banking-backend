@@ -10,6 +10,7 @@ spring:
     hibernate:
       ddl-auto: update
 server:
+  port: 8081
   error:
     include-stacktrace: never
     include-exception: false
