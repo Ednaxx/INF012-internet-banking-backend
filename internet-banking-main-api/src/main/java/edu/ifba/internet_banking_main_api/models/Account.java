@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -36,18 +37,25 @@ public class Account {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<Operation> operations;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Operation> operations = new ArrayList<>();
 
     public Account(User user) {
         this.user = user;
         this.number = generateAccountNumber();
         this.branch = "001";
         this.balance = BigDecimal.ZERO;
+        this.operations = new ArrayList<>();
     }
 
     private String generateAccountNumber() {
         Random random = new Random();
         return String.format("%08d", random.nextInt(100000000));
+    }
+
+    public void addOperation(Operation operation) {
+        operations.add(operation);
+        operation.setAccount(this);
     }
 }

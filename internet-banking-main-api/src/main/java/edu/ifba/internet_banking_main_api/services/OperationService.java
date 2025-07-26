@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,16 +33,13 @@ public class OperationService {
     public OperationResponseDTO deposit(String userId, DepositRequestDTO request) {
         Account account = getUserAccount(userId);
         
-        // Validate amount
         if (request.amount().compareTo(BigDecimal.ZERO) <= 0) {
             throw new ApiException(ErrorType.BAD_REQUEST, "Deposit amount must be greater than zero");
         }
 
-        // Update account balance
         BigDecimal newBalance = account.getBalance().add(request.amount());
         account.setBalance(newBalance);
 
-        // Create operation record
         Operation operation = new Operation(
             OperationType.DEPOSIT,
             request.amount(),
@@ -49,7 +47,6 @@ public class OperationService {
             account
         );
 
-        // Save both account and operation
         accountRepository.save(account);
         Operation savedOperation = operationRepository.save(operation);
 
@@ -67,21 +64,17 @@ public class OperationService {
     public OperationResponseDTO withdraw(String userId, WithdrawalRequestDTO request) {
         Account account = getUserAccount(userId);
         
-        // Validate amount
         if (request.amount().compareTo(BigDecimal.ZERO) <= 0) {
             throw new ApiException(ErrorType.BAD_REQUEST, "Withdrawal amount must be greater than zero");
         }
 
-        // Check sufficient balance
         if (account.getBalance().compareTo(request.amount()) < 0) {
             throw new ApiException(ErrorType.BAD_REQUEST, "Insufficient balance");
         }
 
-        // Update account balance
         BigDecimal newBalance = account.getBalance().subtract(request.amount());
         account.setBalance(newBalance);
 
-        // Create operation record
         Operation operation = new Operation(
             OperationType.WITHDRAWAL,
             request.amount(),
@@ -89,7 +82,6 @@ public class OperationService {
             account
         );
 
-        // Save both account and operation
         accountRepository.save(account);
         Operation savedOperation = operationRepository.save(operation);
 
@@ -101,6 +93,11 @@ public class OperationService {
             savedOperation.getCreatedAt(),
             newBalance
         );
+    }
+
+    public List<Operation> getAccountStatement(String userId) {
+        Account account = getUserAccount(userId);
+        return operationRepository.findByAccountOrderByCreatedAtDesc(account);
     }
 
     private Account getUserAccount(String userId) {
