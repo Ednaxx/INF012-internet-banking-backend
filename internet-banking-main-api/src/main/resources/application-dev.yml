@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Internet Banking API
+    name: internet-banking-api
   datasource:
     url: jdbc:postgresql://localhost:5432/internet_banking
     username: postgres

@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: internet-banking-api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: false  # Disable automatic discovery to prevent issues with invalid service names
+              lower-case-service-id: true
+          routes:
+            - id: internet-banking-main-api
+              uri: lb://internet-banking-api
+              predicates:
+                - Path=/api/**
+              filters:
+                - StripPrefix=1
+            - id: internet-banking-mail-service
+              uri: lb://internet-banking-mail-service
+              predicates:
+                - Path=/mail/**
+              filters:
+                - StripPrefix=1
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.netflix.eureka: DEBUG
