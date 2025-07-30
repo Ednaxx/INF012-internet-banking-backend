@@ -78,7 +78,7 @@ public class AccountController {
                     op.getAmount(),
                     op.getDescription(),
                     op.getCreatedAt(),
-                    null // We don't show balance for each operation in statement
+                    null
                 ))
                 .collect(Collectors.toList());
 

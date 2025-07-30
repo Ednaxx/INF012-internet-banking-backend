@@ -8,6 +8,7 @@ import edu.ifba.internet_banking_main_api.models.Operation;
 import edu.ifba.internet_banking_main_api.models.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
@@ -19,6 +20,7 @@ public class EmailNotificationService {
 
     private final EmailClient emailClient;
 
+    @Async("emailTaskExecutor")
     public void sendWelcomeEmail(User user, Account account) {
         try {
             String subject = "Welcome to Internet Banking!";
@@ -44,6 +46,7 @@ public class EmailNotificationService {
         }
     }
 
+    @Async("emailTaskExecutor")
     public void sendDepositNotification(User user, Account account, Operation operation) {
         try {
             String subject = "Deposit Confirmation";
@@ -78,6 +81,7 @@ public class EmailNotificationService {
         }
     }
 
+    @Async("emailTaskExecutor")
     public void sendWithdrawalNotification(User user, Account account, Operation operation) {
         try {
             String subject = "Withdrawal Confirmation";
@@ -110,6 +114,7 @@ public class EmailNotificationService {
         }
     }
 
+    @Async("emailTaskExecutor")
     public void sendPaymentNotification(User user, Account account, Operation operation) {
         try {
             String subject = "Payment Confirmation";

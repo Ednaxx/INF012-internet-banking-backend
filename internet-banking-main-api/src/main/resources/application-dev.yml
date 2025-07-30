@@ -9,6 +9,14 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  # Async processing configuration
+  task:
+    execution:
+      pool:
+        core-size: 2
+        max-size: 5
+        queue-capacity: 100
+      thread-name-prefix: "async-task-"
 
 server:
   port: 8081
@@ -56,3 +64,4 @@ hystrix:
 logging:
   level:
     edu.ifba.internet_banking_main_api.clients: DEBUG
+    edu.ifba.internet_banking_main_api.services.EmailNotificationService: INFO
