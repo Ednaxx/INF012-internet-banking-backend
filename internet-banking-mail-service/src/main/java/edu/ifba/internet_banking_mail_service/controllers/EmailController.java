@@ -2,6 +2,8 @@ package edu.ifba.internet_banking_mail_service.controllers;
 
 import edu.ifba.internet_banking_mail_service.dtos.EmailRequestDTO;
 import edu.ifba.internet_banking_mail_service.dtos.EmailResponseDTO;
+import edu.ifba.internet_banking_mail_service.exceptions.ApiException;
+import edu.ifba.internet_banking_mail_service.exceptions.ErrorType;
 import edu.ifba.internet_banking_mail_service.services.EmailService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,12 +35,7 @@ public class EmailController {
         } catch (Exception e) {
             log.error("Error sending email", e);
             
-            EmailResponseDTO response = new EmailResponseDTO(
-                "Failed to send email: " + e.getMessage(), 
-                false
-            );
-            
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+            throw new ApiException(ErrorType.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 
