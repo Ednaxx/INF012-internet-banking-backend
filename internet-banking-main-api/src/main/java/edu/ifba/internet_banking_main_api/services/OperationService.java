@@ -1,6 +1,7 @@
 package edu.ifba.internet_banking_main_api.services;
 
 import edu.ifba.internet_banking_main_api.dtos.request.DepositRequestDTO;
+import edu.ifba.internet_banking_main_api.dtos.request.PaymentRequestDTO;
 import edu.ifba.internet_banking_main_api.dtos.request.WithdrawalRequestDTO;
 import edu.ifba.internet_banking_main_api.dtos.response.OperationResponseDTO;
 import edu.ifba.internet_banking_main_api.exceptions.ApiException;
@@ -92,6 +93,69 @@ public class OperationService {
             savedOperation.getDescription(),
             savedOperation.getCreatedAt(),
             newBalance
+        );
+    }
+
+    @Transactional
+    public OperationResponseDTO payment(String userId, PaymentRequestDTO request) {
+        Account sourceAccount = getUserAccount(userId);
+        
+        if (request.amount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new ApiException(ErrorType.BAD_REQUEST, "Payment amount must be greater than zero");
+        }
+
+        if (sourceAccount.getBalance().compareTo(request.amount()) < 0) {
+            throw new ApiException(ErrorType.BAD_REQUEST, "Insufficient balance");
+        }
+
+        Optional<Account> targetAccountOptional = accountRepository.findByNumberAndBranch(
+            request.targetAccountNumber(), 
+            request.targetBranch()
+        );
+
+        if (targetAccountOptional.isEmpty()) {
+            throw new ApiException(ErrorType.RESOURCE_NOT_FOUND, "Target account not found");
+        }
+
+        Account targetAccount = targetAccountOptional.get();
+
+        if (sourceAccount.getId().equals(targetAccount.getId())) {
+            throw new ApiException(ErrorType.BAD_REQUEST, "Cannot make payment to the same account");
+        }
+
+        BigDecimal newSourceBalance = sourceAccount.getBalance().subtract(request.amount());
+        BigDecimal newTargetBalance = targetAccount.getBalance().add(request.amount());
+        
+        sourceAccount.setBalance(newSourceBalance);
+        targetAccount.setBalance(newTargetBalance);
+
+        Operation sourceOperation = new Operation(
+            OperationType.PAYMENT,
+            request.amount(),
+            request.description() != null ? request.description() : 
+                String.format("Payment to account %s-%s", request.targetAccountNumber(), request.targetBranch()),
+            sourceAccount
+        );
+
+        Operation targetOperation = new Operation(
+            OperationType.DEPOSIT,
+            request.amount(),
+            String.format("Payment received from account %s-%s", sourceAccount.getNumber(), sourceAccount.getBranch()),
+            targetAccount
+        );
+
+        accountRepository.save(sourceAccount);
+        accountRepository.save(targetAccount);
+        Operation savedSourceOperation = operationRepository.save(sourceOperation);
+        operationRepository.save(targetOperation);
+
+        return new OperationResponseDTO(
+            savedSourceOperation.getId(),
+            savedSourceOperation.getType(),
+            savedSourceOperation.getAmount(),
+            savedSourceOperation.getDescription(),
+            savedSourceOperation.getCreatedAt(),
+            newSourceBalance
         );
     }
 

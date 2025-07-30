@@ -1,6 +1,7 @@
 package edu.ifba.internet_banking_main_api.controllers;
 
 import edu.ifba.internet_banking_main_api.dtos.request.DepositRequestDTO;
+import edu.ifba.internet_banking_main_api.dtos.request.PaymentRequestDTO;
 import edu.ifba.internet_banking_main_api.dtos.request.WithdrawalRequestDTO;
 import edu.ifba.internet_banking_main_api.dtos.response.BalanceResponseDTO;
 import edu.ifba.internet_banking_main_api.dtos.response.OperationResponseDTO;
@@ -50,6 +51,15 @@ public class AccountController {
         String userId = authentication.getName();
         
         OperationResponseDTO operation = operationService.withdraw(userId, request);
+        return ResponseEntity.ok(operation);
+    }
+
+    @PostMapping("/payment")
+    public ResponseEntity<OperationResponseDTO> payment(@Valid @RequestBody PaymentRequestDTO request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName();
+        
+        OperationResponseDTO operation = operationService.payment(userId, request);
         return ResponseEntity.ok(operation);
     }
 

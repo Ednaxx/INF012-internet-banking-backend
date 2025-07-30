@@ -31,6 +31,7 @@ public class Operation {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
+    @Column(length = 500)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
