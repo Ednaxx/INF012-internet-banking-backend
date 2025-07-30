@@ -1,0 +1,49 @@
+package edu.ifba.internet_banking_mail_service.controllers;
+
+import edu.ifba.internet_banking_mail_service.dtos.EmailRequestDTO;
+import edu.ifba.internet_banking_mail_service.dtos.EmailResponseDTO;
+import edu.ifba.internet_banking_mail_service.services.EmailService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping
+@RequiredArgsConstructor
+@Slf4j
+public class EmailController {
+
+    private final EmailService emailService;
+
+    @PostMapping("/send")
+    public ResponseEntity<EmailResponseDTO> sendEmail(@Valid @RequestBody EmailRequestDTO emailRequest) {
+        try {
+            emailService.sendEmail(emailRequest);
+            
+            EmailResponseDTO response = new EmailResponseDTO(
+                "Email sent successfully", 
+                true
+            );
+            
+            return ResponseEntity.ok(response);
+            
+        } catch (Exception e) {
+            log.error("Error sending email", e);
+            
+            EmailResponseDTO response = new EmailResponseDTO(
+                "Failed to send email: " + e.getMessage(), 
+                false
+            );
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping("/health")
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("Mail service is running");
+    }
+}
