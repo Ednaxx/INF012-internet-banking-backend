@@ -29,6 +29,7 @@ public class OperationService {
     private final UserRepository userRepository;
     private final AccountRepository accountRepository;
     private final OperationRepository operationRepository;
+    private final EmailNotificationService emailNotificationService;
 
     @Transactional
     public OperationResponseDTO deposit(String userId, DepositRequestDTO request) {
@@ -50,6 +51,9 @@ public class OperationService {
 
         accountRepository.save(account);
         Operation savedOperation = operationRepository.save(operation);
+
+        // Send email notification
+        emailNotificationService.sendDepositNotification(account.getUser(), account, savedOperation);
 
         return new OperationResponseDTO(
             savedOperation.getId(),
@@ -85,6 +89,9 @@ public class OperationService {
 
         accountRepository.save(account);
         Operation savedOperation = operationRepository.save(operation);
+
+        // Send email notification
+        emailNotificationService.sendWithdrawalNotification(account.getUser(), account, savedOperation);
 
         return new OperationResponseDTO(
             savedOperation.getId(),
@@ -148,6 +155,9 @@ public class OperationService {
         accountRepository.save(targetAccount);
         Operation savedSourceOperation = operationRepository.save(sourceOperation);
         operationRepository.save(targetOperation);
+
+        // Send email notification to the source account user
+        emailNotificationService.sendPaymentNotification(sourceAccount.getUser(), sourceAccount, savedSourceOperation);
 
         return new OperationResponseDTO(
             savedSourceOperation.getId(),

@@ -9,6 +9,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
 server:
   port: 8081
   error:
@@ -16,13 +17,42 @@ server:
     include-exception: false
     include-message: never
     include-binding-errors: never
+
 jwt:
   secret: myVeryLongSecretKeyThatIsAtLeast256BitsLongForHS256Algorithm1234567890
   expiration: 86400000 # 24 hours in milliseconds
   issuer: internet-banking-api
+
 eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
   instance:
     preferIpAddress: true
+
+# Feign client configuration
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 10000
+      internet-banking-mail-service:
+        connectTimeout: 3000
+        readTimeout: 5000
+  hystrix:
+    enabled: true
+
+# Hystrix configuration for circuit breaker
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+
+# Logging configuration for debugging Feign calls
+logging:
+  level:
+    edu.ifba.internet_banking_main_api.clients: DEBUG

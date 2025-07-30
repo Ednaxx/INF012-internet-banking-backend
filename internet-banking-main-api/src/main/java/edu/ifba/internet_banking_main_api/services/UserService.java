@@ -17,6 +17,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final EmailNotificationService emailNotificationService;
 
     @Transactional
     public void createUser(CreateUserRequestDTO request) {
@@ -34,6 +35,9 @@ public class UserService {
         Account account = new Account(user);
         user.setConta(account);
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+        
+        // Send welcome email
+        emailNotificationService.sendWelcomeEmail(savedUser, savedUser.getConta());
     }
 }
