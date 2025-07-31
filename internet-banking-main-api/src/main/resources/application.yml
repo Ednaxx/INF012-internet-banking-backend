@@ -26,3 +26,18 @@ eureka:
       defaultZone: http://${EUREKA_SERVER_ADDRESS}:${EUREKA_SERVER_PORT}/eureka/
   instance:
     preferIpAddress: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    disable-swagger-default-url: true
+    display-request-duration: true
+    try-it-out-enabled: true
+  packages-to-scan: edu.ifba.internet_banking_main_api.controllers
+  show-actuator: false

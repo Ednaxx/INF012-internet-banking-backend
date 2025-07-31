@@ -38,30 +38,23 @@ eureka:
   instance:
     preferIpAddress: true
 
-# Feign client configuration
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 5000
-        readTimeout: 10000
-      internet-banking-mail-service:
-        connectTimeout: 3000
-        readTimeout: 5000
-  hystrix:
-    enabled: true
-
-# Hystrix configuration for circuit breaker
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 10000
-
 # Logging configuration for debugging Feign calls
 logging:
   level:
     edu.ifba.internet_banking_main_api.clients: DEBUG
     edu.ifba.internet_banking_main_api.services.EmailNotificationService: INFO
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    disable-swagger-default-url: true
+    display-request-duration: true
+    try-it-out-enabled: true
+  packages-to-scan: edu.ifba.internet_banking_main_api.controllers
+  show-actuator: false
