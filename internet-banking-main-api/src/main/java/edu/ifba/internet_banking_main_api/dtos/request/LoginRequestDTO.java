@@ -15,7 +15,7 @@ public record LoginRequestDTO(
 
     @Schema(
         description = "Bank branch number",
-        example = "0001",
+        example = "001",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     @NotBlank(message = "Branch is required")

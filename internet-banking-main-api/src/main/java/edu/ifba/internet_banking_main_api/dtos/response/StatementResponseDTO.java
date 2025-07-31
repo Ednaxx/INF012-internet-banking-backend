@@ -19,7 +19,7 @@ public class StatementResponseDTO {
     
     @Schema(
         description = "Branch number",
-        example = "0001"
+        example = "001"
     )
     private String branch;
     

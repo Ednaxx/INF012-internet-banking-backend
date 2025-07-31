@@ -7,12 +7,14 @@ import edu.ifba.internet_banking_main_api.models.Account;
 import edu.ifba.internet_banking_main_api.models.User;
 import edu.ifba.internet_banking_main_api.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -36,6 +38,12 @@ public class UserService {
         user.setConta(account);
 
         User savedUser = userRepository.save(user);
+        
+        // Log user creation with debug level
+        log.debug("User created successfully - Name: '{}', Account Number: {}, Branch: {}", 
+                 savedUser.getName(), 
+                 savedUser.getConta().getNumber(), 
+                 savedUser.getConta().getBranch());
         
         // Send welcome email
         emailNotificationService.sendWelcomeEmail(savedUser, savedUser.getConta());

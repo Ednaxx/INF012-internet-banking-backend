@@ -19,7 +19,7 @@ public record CreateUserRequestDTO(
 
     @Schema(
         description = "Brazilian CPF number (11 digits only)",
-        example = "12345678901",
+        example = "47276120031",
         requiredMode = Schema.RequiredMode.REQUIRED,
         pattern = "\\d{11}"
     )

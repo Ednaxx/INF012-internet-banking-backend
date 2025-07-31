@@ -43,6 +43,7 @@ logging:
   level:
     edu.ifba.internet_banking_main_api.clients: DEBUG
     edu.ifba.internet_banking_main_api.services.EmailNotificationService: INFO
+    edu.ifba.internet_banking_main_api.services.UserService: DEBUG
 
 springdoc:
   api-docs:

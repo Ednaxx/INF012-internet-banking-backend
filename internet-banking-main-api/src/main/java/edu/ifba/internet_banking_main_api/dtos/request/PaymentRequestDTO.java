@@ -20,7 +20,7 @@ public record PaymentRequestDTO(
     
     @Schema(
         description = "Target branch number",
-        example = "0002",
+        example = "002",
         requiredMode = Schema.RequiredMode.REQUIRED
     )
     @NotBlank(message = "Target branch is required")
