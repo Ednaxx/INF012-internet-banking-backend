@@ -23,19 +23,19 @@ public class EmailNotificationService {
     @Async("emailTaskExecutor")
     public void sendWelcomeEmail(User user, Account account) {
         try {
-            String subject = "Welcome to Internet Banking!";
+            String subject = "Bem vindo ao Internet Banking!";
             String body = String.format("""
-                Hello %s,
+                Olá %s,
                 
-                Welcome to our Internet Banking system!
+                Bem vindo ao nosso sistema de Internet Banking!
                 
-                Your account has been successfully created:
-                - Account Number: %s
-                - Branch: %s
+                Sua conta foi criada com sucesso:
+                - Número da conta: %s
+                - Agência: %s
                 
-                You can now access all our banking services online.
+                Você pode acessar sua conta através do nosso portal online.
                 
-                Best regards,
+                Atenciosamente,
                 Internet Banking Team
                 """, user.getName(), account.getNumber(), account.getBranch());
 
@@ -49,23 +49,23 @@ public class EmailNotificationService {
     @Async("emailTaskExecutor")
     public void sendDepositNotification(User user, Account account, Operation operation) {
         try {
-            String subject = "Deposit Confirmation";
+            String subject = "Confirmação de Depósito";
             String body = String.format("""
-                Hello %s,
+                Olá %s,
                 
-                Your deposit has been processed successfully:
+                Seu depósito foi processado com sucesso:
                 
-                - Account: %s (Branch: %s)
-                - Amount: $%.2f
-                - Description: %s
-                - Date: %s
-                - New Balance: $%.2f
+                - Conta: %s (Agência: %s)
+                - Valor: $%.2f
+                - Descrição: %s
+                - Data: %s
+                - Saldo novo: $%.2f
                 
-                Thank you for using our services.
+                Obrigado por utilizar nossos serviços.
                 
-                Best regards,
+                Atenciosamente,
                 Internet Banking Team
-                """, 
+                """,
                 user.getName(), 
                 account.getNumber(), 
                 account.getBranch(),
@@ -84,19 +84,21 @@ public class EmailNotificationService {
     @Async("emailTaskExecutor")
     public void sendWithdrawalNotification(User user, Account account, Operation operation) {
         try {
-            String subject = "Withdrawal Confirmation";
+            String subject = "Confirmação de Saque";
             String body = String.format("""
-                Hello %s,
+                Olá %s,
                 
-                Your withdrawal has been processed successfully:
+                Seu saque foi processado com sucesso:
                 
-                - Account: %s (Branch: %s)
-                - Amount: $%.2f
-                - Description: %s
-                - Date: %s
-                - New Balance: $%.2f
+                - Conta: %s (Agência: %s)
+                - Valor: $%.2f
+                - Descrição: %s
+                - Data: %s
+                - Saldo novo: $%.2f
                 
-                Best regards,
+                Obrigado por utilizar nossos serviços.
+                
+                Atenciosamente,
                 Internet Banking Team
                 """, 
                 user.getName(), 
@@ -117,19 +119,21 @@ public class EmailNotificationService {
     @Async("emailTaskExecutor")
     public void sendPaymentNotification(User user, Account account, Operation operation) {
         try {
-            String subject = "Payment Confirmation";
+            String subject = "Confirmação de Pagamento";
             String body = String.format("""
-                Hello %s,
+                Olá %s,
                 
-                Your payment has been processed successfully:
+                Seu pagamento foi processado com sucesso:
                 
-                - Account: %s (Branch: %s)
-                - Amount: $%.2f
-                - Description: %s
-                - Date: %s
-                - New Balance: $%.2f
+                - Conta: %s (Agência: %s)
+                - Valor: $%.2f
+                - Descrição: %s
+                - Data: %s
+                - Saldo novo: $%.2f
                 
-                Best regards,
+                Obrigado por utilizar nossos serviços.
+                
+                Atenciosamente,
                 Internet Banking Team
                 """, 
                 user.getName(), 
